@@ -4,12 +4,13 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Biblioteca.Data;
 using Biblioteca.Data.Modelos;
+using System.Web.Configuration;
 
 namespace Biblioteca.Host.Controllers
 {
     public class LibroController : ApiController
     {
-        BibliotecaContext bibliotecaContext = new BibliotecaContext("BibliotecaMaestro");
+        BibliotecaContext bibliotecaContext = new BibliotecaContext(WebConfigurationManager.AppSettings["connectionStringParaUsar"]);
 
         protected override void Dispose(bool disposing)
         {
