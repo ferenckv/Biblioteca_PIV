@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Biblioteca.Data;
 using Biblioteca.Data.Modelos;
-using System.Web.Http.Description;
 
 namespace Biblioteca.Host.Controllers
 {
@@ -24,15 +21,24 @@ namespace Biblioteca.Host.Controllers
         }
 
         // GET: api/Libro
-        public IEnumerable<string> Get()
+        public IEnumerable<Libro> Get()
         {
-            return new string[] { "value1", "value2" };
+            return bibliotecaContext.Libros;
         }
 
         // GET: api/Libro/5
-        public string Get(int id)
+        [ResponseType(typeof(Libro))]
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            var libro = bibliotecaContext.Libros.Find(id);
+            if (libro == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(libro);
+            }
         }
 
         [Route("api/Libro/{idLibro}/editorial/{idEditorial}")]
@@ -50,7 +56,7 @@ namespace Biblioteca.Host.Controllers
 
             libro.Editorial = editorial;
             bibliotecaContext.Entry(libro).State = 
-                System.Data.Entity.EntityState.Modified;
+                EntityState.Modified;
 
             return Ok(libro);
         }
@@ -70,13 +76,57 @@ namespace Biblioteca.Host.Controllers
         }
 
         // PUT: api/Libro/5
-        public void Put(int id, [FromBody]string value)
+        [ResponseType(typeof(Libro))]
+        public IHttpActionResult Put(int id, Libro libro)
         {
+            if (id != libro.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            bibliotecaContext.Entry(libro).State =
+                EntityState.Modified;
+
+            bibliotecaContext.SaveChanges();
+            return Ok(libro);
+        }
+
+        [ResponseType(typeof(Libro))]
+        [HttpPut]
+        [Route("api/Libro/{idLibro}/Autor/{idAutor}")]
+        public IHttpActionResult AgregarLibro(int idLibro, int idAutor)
+        {
+            var autor = bibliotecaContext.Autores.Find(idAutor);
+            var libro = bibliotecaContext.Libros.Find(idLibro);
+
+            if (autor == null || libro == null)
+            {
+                return NotFound();
+            }
+
+            libro.AgregarAutor(autor);
+
+            bibliotecaContext.Entry(libro).State =
+                EntityState.Modified;
+
+            bibliotecaContext.SaveChanges();
+            return Ok(libro);
         }
 
         // DELETE: api/Libro/5
-        public void Delete(int id)
+        [ResponseType(typeof(void))]
+        public IHttpActionResult Delete(int id)
         {
+            var libro =
+                bibliotecaContext.Libros.Find(id);
+            if (libro == null)
+            {
+                return NotFound();
+            }
+
+            bibliotecaContext.Libros.Remove(libro);
+            bibliotecaContext.SaveChanges();
+            return Ok();
         }
     }
 }

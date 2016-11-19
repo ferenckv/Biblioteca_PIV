@@ -1,11 +1,8 @@
+using System.Data.Entity.Migrations;
+
 namespace Biblioteca.Data.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<Biblioteca.Data.BibliotecaContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<BibliotecaContext>
     {
         public Configuration()
         {
@@ -13,7 +10,7 @@ namespace Biblioteca.Data.Migrations
             ContextKey = "Biblioteca.Data.BibliotecaContext";
         }
 
-        protected override void Seed(Biblioteca.Data.BibliotecaContext context)
+        protected override void Seed(BibliotecaContext context)
         {
             //  This method will be called after migrating to the latest version.
 

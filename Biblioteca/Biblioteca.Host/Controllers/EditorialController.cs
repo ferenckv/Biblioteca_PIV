@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Biblioteca.Data;
 using Biblioteca.Data.Modelos;
-using System.Web.Http.Description;
 
 namespace Biblioteca.Host.Controllers
 {
@@ -70,7 +67,7 @@ namespace Biblioteca.Host.Controllers
             }
 
             bibliotecaContext.Entry(editorial).State = 
-                System.Data.Entity.EntityState.Modified;
+                EntityState.Modified;
 
             bibliotecaContext.SaveChanges();
             return Ok(editorial);
