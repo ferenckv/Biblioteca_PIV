@@ -4,7 +4,7 @@
         <input 
                class="form-control" 
                id="editorialId" 
-               ng-model="editorialActual.id" 
+               ng-model="editorialActual.Id" 
                ng-disabled="true"/>
     </div>
     <div class="form-group">
@@ -12,10 +12,10 @@
         <input 
                class="form-control" 
                id="editorialNombre" 
-               ng-model="editorialActual.nombre" />
+               ng-model="editorialActual.Nombre" />
      </div>
     <div class="form-group">
-        <button class="btn btn-primary">Salvar</button>
+        <button ng-click="salvarEditorial()" class="btn btn-primary">Salvar</button>
         <button class="btn btn-default">Cancelar</button>
     </div>
 </form>
@@ -26,10 +26,10 @@
         <th></th>
     </tr>
     <tr ng-repeat="editorial in editoriales">
-        <td>{{editorial.id}}</td>
-        <td>{{editorial.nombre}}</td>
+        <td>{{editorial.Id}}</td>
+        <td>{{editorial.Nombre}}</td>
         <td>
-            <button class="btn btn-link">Editar</button>
+            <button ng-click="editar(editorial)" class="btn btn-link">Editar</button>
         </td>
     </tr>
 </table>
