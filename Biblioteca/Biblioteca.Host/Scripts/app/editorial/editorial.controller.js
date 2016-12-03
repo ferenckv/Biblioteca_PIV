@@ -30,7 +30,15 @@
                         $scope.limpiar();
                         alert('Editorial Editada!');
                     });
+            } else if ($scope.accionActual === 'Eliminar') {
+                editorialService.eliminarEditorial($scope.editorialActual)
+                    .then(function (response) {
+                        $scope.obtenerEditoriales();
+                        $scope.limpiar();
+                        alert('Editorial Eliminada!');
+                    });
             }
+
         }
         $scope.limpiar = function () {
             $scope.accionActual = 'Agregar';
@@ -41,7 +49,12 @@
         }
         $scope.editar = function (editorial) {
             $scope.accionActual = 'Editar';
-            $scope.editorialActual = editorial;
+            $scope.editorialActual = JSON.parse(JSON.stringify(editorial));
+        }
+
+        $scope.eliminar = function (editorial) {
+            $scope.accionActual = 'Eliminar';
+            $scope.editorialActual = JSON.parse(JSON.stringify(editorial));;
         }
 
         $scope.obtenerEditoriales();
